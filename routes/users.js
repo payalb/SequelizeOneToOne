@@ -10,7 +10,6 @@ router.route("/").post(async (req,resp)=>{
        resp.status(201).send(data)
     ).catch((err)=> resp.status(500).send({"Error": err}))
 }).get(async (req,resp)=>{
-    
     UserRepository.getAllUsers().then((data)=> 
        resp.send(data)
     ).catch((err)=> resp.status(500).send({"Error": err}))

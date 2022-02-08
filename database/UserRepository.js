@@ -2,7 +2,7 @@ const db = require("../models")
 
 class UserRepository{
 
-     static async save(u){
+    static async save(u){
         var user = db.User.build(u);
         return user.save().then((data)=>  data);
     }
