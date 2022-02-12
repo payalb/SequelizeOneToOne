@@ -12,7 +12,7 @@ class UserRepository{
     }
 
     static async getUserById(uid){
-      return db.User.findByPk(uid);
+      return db.User.findOne({include: [{model: db.Post}]},{where: {id: uid}});
     }
 
    static async deleteUserById(uid){

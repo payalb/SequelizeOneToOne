@@ -31,7 +31,26 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+db.User.hasOne(db.Passport,{allowNull: false});//User has association with Passport, but cannot fetch user based on passport
+//db.Passport.belongsTo(db.User) //Passport will have userid column
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+db.sequelize.sync({force: true}).then(async()=>{
+
+ var user = db.User.build({ "firstname": "payal", "lastname": "bansal","email": "bansal@gmail.com", "password": "payal123"})
+   user.save(). then((data)=> {
+   var passport = db.Passport.build({"issuedate": '10-02-2022', "expirydate": "10-07-2028", "location": "Ghaziabad", "name": "payal bansal"})
+   data.setPassport(passport).then((d)=> {
+     console.log(JSON.stringify(d));
+   })
+   
+    /*db.Passport.create({"issuedate": '10-02-2022', "expirydate": "10-07-2028", "location": "Ghaziabad", "name": "payal bansal", "UserId": data.id}).then((d)=> {
+     console.log(JSON.stringify(d));
+   })*/
+    module.exports = db;
+   }).catch((e)=>{
+    console.log(e);
+  });
+ 
+});
